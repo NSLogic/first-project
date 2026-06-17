@@ -1,0 +1,311 @@
+:root {
+  --bg-color: #f8f8f8;
+  --card-bg: #ffffff;
+  --text-color: #333333;
+}
+
+[data-theme="dark"] {
+  --bg-color: #1a1a1a;
+  --card-bg: #2d2d2d;
+  --text-color: #f8f8f8;
+}
+
+body {
+  margin: 0;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  font-family: sans-serif;
+  transition: 0.3s;
+}
+
+.app-layout {
+  display: grid;
+  grid-template-columns: 250px 1fr; /* This keeps the sidebar on the left */
+  gap: 20px;
+  padding: 20px;
+}
+
+/* 1. Fixes the Sidebar overlapping the Profile Avatar */
+.sidebar {
+  margin-top: 70px; /* This pushes the categories down below the avatar */
+}
+/* DELETE THE OLD .theme-toggle BLOCK COMPLETELY */
+
+/* Use this container to hold BOTH buttons side-by-side */
+.button-container {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  display: flex;
+  gap: 10px;
+  z-index: 9999;
+}
+
+/* Style the buttons generally, not with fixed positions */
+.button-container button {
+  padding: 8px 16px;
+  cursor: pointer;
+  border-radius: 20px;
+  border: none;
+  background: #6200ea;
+  color: white;
+}
+/* Style the individual cards to have the same dimensions */
+.recipe-card {
+  background: var(--card-bg);
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%; /* Ensures consistency */
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s;
+}
+.recipe-card h3 {
+  margin: 10px 0;
+  font-size: 1.1rem;
+  height: 2.5em; /* Ensures title area is consistent height even if short */
+  overflow: hidden;
+}
+
+.recipe-card p {
+  font-size: 0.9rem;
+  color: #666;
+  flex-grow: 1; /* Allows the paragraph to fill remaining space */
+}
+.recipe-card:hover {
+  transform: translateY(-5px);
+}
+.recipe-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr); /* 4 items per row */
+  gap: 20px;
+  padding: 20px;
+}
+.recipe-img {
+  width: 100%;
+  height: 150px; /* Force a fixed height */
+  object-fit: cover; /* Prevents stretching/distortion */
+  border-radius: 8px;
+  margin-bottom: 10px;
+}
+/* Sidebar list styling */
+.sidebar ul {
+  list-style: none;
+  padding: 0;
+  margin-top: 20px;
+}
+
+.sidebar li {
+  padding: 12px 15px;
+  margin-bottom: 8px;
+  cursor: pointer;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+  font-weight: 500;
+}
+
+.sidebar li:hover {
+  background-color: #6200ea;
+  color: white;
+}
+
+/* Make sure the form doesn't break the layout */
+.recipe-form input,
+.recipe-form select {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  box-sizing: border-box; /* This keeps input size correct */
+}
+/* --- Login/Register Page Styling --- */
+.login-page {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: var(--bg-color);
+}
+
+.login-page h1 {
+  margin-bottom: 20px;
+  color: var(--text-color);
+}
+
+/* Ensure forms look consistent even on the login page */
+.login-page .recipe-form {
+  margin-bottom: 20px;
+  width: 300px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Make sure buttons inside forms look good */
+/* 1. Only applies the 2-column Grid to forms inside the 'app-layout' */
+.app-layout .recipe-form {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  background: #f9f9f9;
+  padding: 15px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+
+/* 2. Forces Login/Register forms to be a simple vertical stack */
+.login-page .recipe-form {
+  display: flex;
+  flex-direction: column;
+  width: 300px;
+  padding: 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+}
+
+/* 3. Common rules for inputs and buttons inside ANY recipe-form */
+.recipe-form h3 {
+  margin-top: 0;
+  margin-bottom: 10px;
+}
+
+.recipe-form input {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  width: 100%;
+  box-sizing: border-box; /* Prevents overflow */
+}
+
+.recipe-form button {
+  padding: 10px;
+  background: #6200ea;
+  color: white;
+  border: none;
+  cursor: pointer;
+  border-radius: 4px;
+  width: 100%;
+}
+/* Container for the avatar */
+/* Container must be relative so dropdown stays underneath the avatar */
+.profile-wrapper {
+  position: absolute;
+  top: 10px;
+  left: 20px;
+  z-index: 9999;
+}
+
+/* The circle avatar */
+.user-avatar {
+  width: 45px;
+  height: 45px;
+  background-color: #6200ea; /* Purple background */
+  color: white; /* White letter */
+  border-radius: 50%;
+  display: flex; /* Center the letter perfectly */
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 20px;
+  cursor: pointer;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+/* The dropdown menu */
+.profile-dropdown {
+  background-color: white; /* Ensure it has a visible background */
+  color: #333; /* Ensure text is dark/visible */
+  padding: 15px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  margin-top: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  width: 180px;
+  position: absolute; /* Positioned relative to wrapper */
+  top: 100%; /* Right under the avatar */
+  left: 0;
+}
+
+.profile-dropdown strong {
+  display: block;
+  margin-bottom: 5px;
+  font-size: 16px;
+}
+.cart-controls {
+  margin: 10px 0;
+  display: flex;
+  justify-content: center;
+}
+
+.add-btn {
+  width: 100%;
+  padding: 8px;
+  background-color: #6200ea;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.counter-controls {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  background: #f0f0f0;
+  padding: 5px 10px;
+  border-radius: 20px;
+}
+
+.counter-controls button {
+  background: #6200ea;
+  color: white;
+  border: none;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.count-display {
+  font-weight: bold;
+  min-width: 20px;
+  text-align: center;
+}
+.cart-modal {
+  position: fixed;
+  top: 50px;
+  right: 20px;
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  z-index: 10000;
+  width: 250px;
+}
+/* Search Container */
+.search-container {
+  display: flex;
+  justify-content: center;
+  margin: 20px auto;
+  width: 100%;
+  max-width: 600px;
+}
+
+.search-input {
+  width: 100%;
+  padding: 12px 20px;
+  font-size: 16px;
+  border: 1px solid #ddd;
+  border-radius: 25px; /* Makes it rounded */
+  outline: none;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  transition: box-shadow 0.3s;
+}
+
+.search-input:focus {
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}

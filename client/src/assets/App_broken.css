@@ -1,0 +1,30 @@
+/* Layout Fix */
+body { margin: 0; padding: 0; background-color: #f8f8f8; font-family: sans-serif; }
+
+.app-layout {
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  gap: 20px;
+  background-color: yellow; /* ADD THIS TEMPORARILY */
+  width: 100%;
+}
+/* Sidebar */
+.sidebar { padding: 20px; background: #fff; border: 1px solid #ddd; border-radius: 8px; height: fit-content; }
+.sidebar ul { list-style: none; padding: 0; }
+.sidebar li { margin-bottom: 10px; cursor: pointer; color: #555; }
+
+/* Menu Content */
+.menu-content { padding: 20px; }
+
+/* 4-Column Grid Fix */
+.recipe-grid { 
+  display: grid; 
+  grid-template-columns: repeat(4, 1fr); /* Forces 4 columns */
+  gap: 15px;
+  width: 100%;
+}
+
+.recipe-card { background: #fff; border: 1px solid #ddd; border-radius: 8px; overflow: hidden; }
+.recipe-img { width: 100%; height: 120px; object-fit: cover; }
+.card-content { padding: 10px; }
+.card-title { font-size: 0.9rem; margin: 0; }
