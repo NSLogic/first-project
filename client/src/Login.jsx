@@ -19,8 +19,6 @@ function Login({ setIsLoggedIn }) {
         localStorage.setItem("token", data.token);
         localStorage.setItem("username", data.username);
         localStorage.setItem("email", email);
-
-        // --- ADD THIS LINE ---
         localStorage.setItem("userId", data.userId);
 
         setIsLoggedIn(true);
@@ -32,7 +30,6 @@ function Login({ setIsLoggedIn }) {
       console.error("Login error:", error);
     }
   };
-  // Example for Login.jsx
   return (
     <div
       style={{ display: "flex", justifyContent: "center", marginTop: "50px" }}
@@ -60,5 +57,4 @@ function Login({ setIsLoggedIn }) {
     </div>
   );
 }
-
 export default Login;

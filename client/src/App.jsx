@@ -19,8 +19,8 @@ function App() {
     category: "South Indian",
   });
   const [editingId, setEditingId] = useState(null);
-  const [cart, setCart] = useState([]); // Array to hold cart items
-  const [searchTerm, setSearchTerm] = useState(""); // Add this line
+  const [cart, setCart] = useState([]); 
+  const [searchTerm, setSearchTerm] = useState(""); 
   const [showCart, setShowCart] = useState(false);
   const toggleTheme = () => {
     const newTheme = theme === "light" ? "dark" : "light";
@@ -33,8 +33,6 @@ function App() {
       .then((res) => res.json())
       .then((data) => setRecipes(data))
       .catch((err) => console.error("Error fetching data:", err));
-
-    // Add this block to load bookmarks
     const userId = localStorage.getItem("userId");
     if (userId) {
       fetch(`http://localhost:3000/api/user-bookmarks/${userId}`)
@@ -118,7 +116,7 @@ function App() {
   };
   const toggleBookmark = async (recipeId) => {
     const userId = localStorage.getItem("userId");
-    console.log("Attempting to bookmark with:", { userId, recipeId }); // Debugging line
+    console.log("Attempting to bookmark with:", { userId, recipeId }); 
 
     try {
       const response = await fetch("http://localhost:3000/api/bookmark", {
@@ -127,7 +125,7 @@ function App() {
         body: JSON.stringify({ userId, recipeId }),
       });
 
-      console.log("Response Status:", response.status); // Check if it's 200 or 404
+      console.log("Response Status:", response.status); 
       const data = await response.json();
       console.log("Actual Server Data:", data);
 
@@ -143,7 +141,6 @@ function App() {
   const calculateTotal = () => {
     return cart.reduce((total, item) => total + parseFloat(item.price || 0), 0);
   };
-  // This helps us see how many of a specific item are in the cart
   const getItemCount = (id) => {
     return cart.filter((item) => item._id === id).length;
   };
@@ -164,7 +161,6 @@ function App() {
         </div>
       ) : (
         <>
-          {/* --- BUTTONS: Wrapped in button-container to prevent overlap --- */}
           <div className="button-container">
             {localStorage.getItem("email") === "govinda@gmail.com" && (
               <button
@@ -174,7 +170,6 @@ function App() {
                 {isAdmin ? "Switch to Customer View" : "Manage Menu"}
               </button>
             )}
-            {/* Cart Button */}
             <button onClick={() => setShowCart(!showCart)}>
               🛒 {cart.length} items | ₹{calculateTotal()}
             </button>
@@ -192,8 +187,6 @@ function App() {
               Logout
             </button>
           </div>
-
-          {/* --- PROFILE: Keeps your original absolute position --- */}
           <div className="profile-wrapper">
             <div
               className="user-avatar"
@@ -214,9 +207,7 @@ function App() {
           {showCart && (
             <div className="cart-modal">
               <h3>Your Order</h3>
-              {/* --- UPDATED CART VIEW --- */}
               <ul>
-                {/* Create a list of unique items by their ID */}
                 {Array.from(new Set(cart.map((item) => item._id))).map((id) => {
                   const item = cart.find((i) => i._id === id);
                   const count = getItemCount(id);
@@ -236,7 +227,6 @@ function App() {
               <button onClick={() => setShowCart(false)}>Close</button>
             </div>
           )}
-          {/* --- CONTENT: Your original structure --- */}
           <aside className="sidebar">
             <h3>Categories</h3>
             <ul>
@@ -254,8 +244,6 @@ function App() {
 
           <main className="menu-content">
             <h1>AI Food Genie</h1>
-            {/* With this (Change 'your-admin-email@example.com' to your actual admin email): */}
-
             {isAdmin && (
               <form onSubmit={handleSaveRecipe} className="recipe-form">
                 <h3>{editingId ? "Edit Recipe" : "Add New Recipe"}</h3>
@@ -366,9 +354,6 @@ function App() {
                         </span>
                       )}
                     </p>
-
-                    {/* --- ADDED CART LOGIC --- */}
-                    {/* --- NEW ZOMATO-STYLE CART CONTROLS --- */}
                     <div className="cart-controls">
                       {getItemCount(recipe._id) === 0 ? (
                         <button
@@ -389,8 +374,6 @@ function App() {
                         </div>
                       )}
                     </div>
-
-                    {/* --- ADMIN BUTTONS (Added here) --- */}
                     {isAdmin && (
                       <div
                         style={{

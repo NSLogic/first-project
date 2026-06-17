@@ -17,7 +17,6 @@ mongoose
   .connect(dbURI)
   .then(() => console.log("Connected to MongoDB!"))
   .catch((err) => console.error("Database connection error:", err));
-// Bookmark/Unbookmark Route
 app.post("/api/bookmark", async (req, res) => {
   const { userId, recipeId } = req.body;
   try {
@@ -26,9 +25,9 @@ app.post("/api/bookmark", async (req, res) => {
 
     const index = user.bookmarks.indexOf(recipeId);
     if (index > -1) {
-      user.bookmarks.splice(index, 1); // Remove if already bookmarked
+      user.bookmarks.splice(index, 1);
     } else {
-      user.bookmarks.push(recipeId); // Add if not bookmarked
+      user.bookmarks.push(recipeId);
     }
 
     await user.save();
@@ -80,8 +79,6 @@ app.delete("/api/recipes/:id", async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 });
-
-// Registration Route
 app.post("/api/register", async (req, res) => {
   try {
     const { username, email, password } = req.body;

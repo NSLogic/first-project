@@ -15,7 +15,6 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  // We can add these later for your future requirements
   bookmarks: [{ type: mongoose.Schema.Types.ObjectId, ref: "Recipe" }],
 });
 
