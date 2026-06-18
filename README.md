@@ -1,5 +1,7 @@
 # TastyTreats
 
+### [View the live application](https://first-project-pb58.vercel.app/)
+
 A full-stack menu application built using the MERN stack. The objective is to provide a responsive interface where users can browse categories, search for dishes, and manage a shopping cart with real-time updates.
 
 ## Project Features
