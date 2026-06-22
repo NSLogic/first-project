@@ -29,13 +29,13 @@ function App() {
   };
 
   useEffect(() => {
-    fetch("https://first-project-three-rouge.vercel.app/api/recipes")
+    fetch("https://tastytreats.onrender.com")
       .then((res) => res.json())
       .then((data) => setRecipes(data))
       .catch((err) => console.error("Error fetching data:", err));
     const userId = localStorage.getItem("userId");
     if (userId) {
-      fetch(`https://first-project-three-rouge.vercel.app/api/user-bookmarks/${userId}`)
+      fetch(`https://tastytreats.onrender.com/api/user-bookmarks/${userId}`)
         .then((res) => res.json())
         .then((data) => setUserBookmarks(data.bookmarks))
         .catch((err) => console.error("Error fetching bookmarks:", err));
@@ -44,7 +44,7 @@ function App() {
 
   const addRecipe = (e) => {
     e.preventDefault();
-    fetch("https://first-project-three-rouge.vercel.app/api/recipes", {
+    fetch("https://tastytreats.onrender.com/api/recipes", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(newRecipe),
@@ -65,7 +65,7 @@ function App() {
   };
 
   const deleteRecipe = (id) => {
-    fetch(`https://first-project-three-rouge.vercel.app/api/recipes/${id}`, { method: "DELETE" }).then(
+    fetch(`https://tastytreats.onrender.com/api/recipes/${id}`, { method: "DELETE" }).then(
       () => setRecipes(recipes.filter((recipe) => recipe._id !== id)),
     );
   };
@@ -79,7 +79,7 @@ function App() {
     e.preventDefault();
 
     if (editingId) {
-      fetch(`https://first-project-three-rouge.vercel.app/api/recipes/${editingId}`, {
+      fetch(`https://tastytreats.onrender.com/api/recipes/${editingId}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(newRecipe),
@@ -119,7 +119,7 @@ function App() {
     console.log("Attempting to bookmark with:", { userId, recipeId }); 
 
     try {
-      const response = await fetch("https://first-project-three-rouge.vercel.app/api/bookmark", {
+      const response = await fetch("https://tastytreats.onrender.com/api/bookmark", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ userId, recipeId }),
