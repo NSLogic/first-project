@@ -29,7 +29,7 @@ function App() {
   };
 
   useEffect(() => {
-    fetch("https://tastytreats.onrender.com")
+    fetch("https://tastytreats.onrender.com/api/recipes")
       .then((res) => res.json())
       .then((data) => setRecipes(data))
       .catch((err) => console.error("Error fetching data:", err));
