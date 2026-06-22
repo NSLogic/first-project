@@ -10,7 +10,13 @@ const User = require("./models/User");
 const Recipe = require("./models/Recipe");
 const app = express();
 const PORT = 3000;
-app.use(cors());
+app.use(
+  cors({
+    origin: ["https://first-project-three-rouge.vercel.app"],
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    credentials: true,
+  }),
+);
 app.use(express.json());
 const dbURI = process.env.dbURI;
 mongoose
