@@ -12,7 +12,7 @@ const app = express();
 const PORT = 3000;
 app.use(
   cors({
-    origin: ["https://first-project-three-rouge.vercel.app"],
+    origin: ["https://first-project-pb58.vercel.app"],
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,
   }),
@@ -43,7 +43,7 @@ app.post("/api/bookmark", async (req, res) => {
   }
 });
 app.get("/", (req, res) => {
-  res.send("<h1>AI Food Genie is connected to the Database!</h1>");
+  res.send("<h1>TastyTreats is connected to the Database!</h1>");
 });
 
 app.get("/api/add-test", async (req, res) => {

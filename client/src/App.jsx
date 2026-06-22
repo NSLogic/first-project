@@ -155,7 +155,7 @@ function App() {
             marginTop: "50px",
           }}
         >
-          <h1>Welcome to AI Food Genie</h1>
+          <h1>Welcome to TastyTreats</h1>
           <Login setIsLoggedIn={setIsLoggedIn} />
           <Register />
         </div>
@@ -243,7 +243,7 @@ function App() {
           </aside>
 
           <main className="menu-content">
-            <h1>AI Food Genie</h1>
+            <h1>TastyTreats</h1>
             {isAdmin && (
               <form onSubmit={handleSaveRecipe} className="recipe-form">
                 <h3>{editingId ? "Edit Recipe" : "Add New Recipe"}</h3>

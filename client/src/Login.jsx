@@ -7,14 +7,14 @@ function Login({ setIsLoggedIn }) {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch("https://first-project-three-rouge.vercel.app/", {
+      const response = await fetch("https://first-project-three-rouge.vercel.app/api/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
       });
 
       const data = await response.json();
-      console.log("SERVER DATA RECEIVED:", data); // ADD THIS LINE
+      console.log("SERVER DATA RECEIVED:", data); 
       if (response.ok) {
         localStorage.setItem("token", data.token);
         localStorage.setItem("username", data.username);
