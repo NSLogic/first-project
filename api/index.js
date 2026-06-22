@@ -19,14 +19,6 @@ app.use(cors({
   credentials: true,
   allowedHeaders: ["Content-Type", "Authorization"]
 }));
-
-app.options("*", cors({
-  origin: [
-    "https://first-project-pb58.vercel.app", 
-    /https:\/\/first-project-pb58-.*\.vercel\.app$/
-  ],
-  credentials: true
-}));
 app.use(express.json());
 const dbURI = process.env.dbURI;
 mongoose
@@ -148,4 +140,3 @@ if (process.env.NODE_ENV !== "production") {
     console.log(`Server is running at http://localhost:${PORT}`);
   });
 }
-module.exports = app;
