@@ -10,13 +10,23 @@ const User = require("../models/User");
 const Recipe = require("../models/Recipe");
 const app = express();
 const PORT = 3000;
-app.use(
-  cors({
-    origin: ["https://first-project-pb58.vercel.app"],
-    methods: ["GET", "POST", "PUT", "DELETE"],
-    credentials: true,
-  }),
-);
+app.use(cors({
+  origin: [
+    "https://first-project-pb58.vercel.app", 
+    /https:\/\/first-project-pb58-.*\.vercel\.app$/
+  ],
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  credentials: true,
+  allowedHeaders: ["Content-Type", "Authorization"]
+}));
+
+app.options("*", cors({
+  origin: [
+    "https://first-project-pb58.vercel.app", 
+    /https:\/\/first-project-pb58-.*\.vercel\.app$/
+  ],
+  credentials: true
+}));
 app.use(express.json());
 const dbURI = process.env.dbURI;
 mongoose
