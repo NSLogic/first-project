@@ -6,8 +6,8 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const User = require("./models/User");
-const Recipe = require("./models/Recipe");
+const User = require("../models/User");
+const Recipe = require("../models/Recipe");
 const app = express();
 const PORT = 3000;
 app.use(
