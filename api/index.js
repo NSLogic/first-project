@@ -161,23 +161,21 @@ app.post("/api/ai/recommend", async (req, res) => {
   const { prompt } = req.body;
   try {
     if (!process.env.GEMINI_API_KEY) {
-      return res.status(500).json({ error: "API Key missing in environment" });
+      throw new Error("GEMINI_API_KEY is not defined in environment");
     }
     const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
-    const model = genAI.getGenerativeModel({ model: "gemini-1.5-pro" });
-    const models = await genAI.listModels();
-    console.log("AVAILABLE MODELS:", models);
+    const model = genAI.getGenerativeModel({
+      model: "gemini-1.5-flash-latest",
+    });
 
     const result = await model.generateContent(
       prompt || "Give me a cooking tip.",
     );
-    res.json({ response: result.response.text() });
+    const response = await result.response;
+    res.json({ response: response.text() });
   } catch (error) {
-    console.error("DEBUG AI ERROR:", error);
-    res.status(500).json({
-      error: "AI Service Failed",
-      details: error.message,
-    });
+    console.error("AI Route Error:", error);
+    res.status(500).json({ error: error.message });
   }
 });
 app.listen(PORT, () => {
