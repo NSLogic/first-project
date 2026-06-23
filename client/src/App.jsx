@@ -290,7 +290,7 @@ const calculateTotal = () => {
 
           <main className="menu-content">
             <h1>TastyTreats</h1>
-            <AIHelper />
+            <AIHelper recipes={recipes} /> 
             {isAdmin && (
               <form onSubmit={handleSaveRecipe} className="recipe-form">
                 <h3>{editingId ? "Edit Recipe" : "Add New Recipe"}</h3>
