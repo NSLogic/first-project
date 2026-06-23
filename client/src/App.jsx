@@ -44,7 +44,7 @@ function App() {
     const order = await response.json();
 
     const options = {
-      key: "YOUR_RAZORPAY_KEY_ID", // Replace with your actual Test Key ID
+      key: "rzp_test_T51LAb6OzSEg1v", 
       amount: order.amount,
       currency: "INR",
       name: "TastyTreats",
@@ -52,7 +52,7 @@ function App() {
       order_id: order.id,
       handler: async (response) => {
         alert("Payment Successful! Order ID: " + response.razorpay_payment_id);
-        setCart([]); // Clear cart after payment
+        setCart([]);
         setShowCart(false);
       },
       theme: { color: "#6200ea" },
