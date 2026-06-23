@@ -165,6 +165,8 @@ app.post("/api/ai/recommend", async (req, res) => {
     }
     const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
     const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+    const models = await genAI.listModels();
+    console.log("AVAILABLE MODELS:", models);
 
     const result = await model.generateContent(
       prompt || "Give me a cooking tip.",
