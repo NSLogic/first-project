@@ -36,7 +36,7 @@ function App() {
     const isLoaded = await loadRazorpayScript();
     if (!isLoaded) return alert("Failed to load Razorpay.");
 
-    const response = await fetch("http://localhost:3000/api/create-order", {
+    const response = await fetch("https://tastytreats.onrender.com/api/create-order", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ amount: calculateTotal() }),
