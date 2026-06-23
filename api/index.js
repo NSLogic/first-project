@@ -10,21 +10,23 @@ const User = require("../models/User");
 const Recipe = require("../models/Recipe");
 const Razorpay = require("razorpay");
 const razorpay = new Razorpay({
-key_id: process.env.RAZORPAY_KEY_ID,
-key_secret: process.env.RAZORPAY_KEY_SECRET,
+  key_id: process.env.RAZORPAY_KEY_ID,
+  key_secret: process.env.RAZORPAY_KEY_SECRET,
 });
 const { GoogleGenerativeAI } = require("@google/generative-ai");
 const app = express();
 const PORT = 3000;
-app.use(cors({
-  origin: [
-    "https://first-project-pb58.vercel.app", 
-    /https:\/\/first-project-pb58-.*\.vercel\.app$/
-  ],
-  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-  credentials: true,
-  allowedHeaders: ["Content-Type", "Authorization"]
-}));
+app.use(
+  cors({
+    origin: [
+      "https://first-project-pb58.vercel.app",
+      /https:\/\/first-project-pb58-.*\.vercel\.app$/,
+    ],
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    credentials: true,
+    allowedHeaders: ["Content-Type", "Authorization"],
+  }),
+);
 app.use(express.json());
 const dbURI = process.env.dbURI;
 mongoose
@@ -142,10 +144,10 @@ app.post("/api/login", async (req, res) => {
   }
 });
 app.post("/api/create-order", async (req, res) => {
-  const { amount } = req.body; 
+  const { amount } = req.body;
   try {
     const options = {
-      amount: Math.round(amount * 100), // 
+      amount: Math.round(amount * 100), //
       currency: "INR",
       receipt: "order_rcptid_" + Date.now(),
     };
@@ -158,16 +160,24 @@ app.post("/api/create-order", async (req, res) => {
 app.post("/api/ai/recommend", async (req, res) => {
   const { prompt } = req.body;
   try {
+    if (!process.env.GEMINI_API_KEY) {
+      return res.status(500).json({ error: "API Key missing in environment" });
+    }
     const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
- const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash-001" });
-    const result = await model.generateContent(prompt || "Give me a cooking tip.");
+    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+
+    const result = await model.generateContent(
+      prompt || "Give me a cooking tip.",
+    );
     res.json({ response: result.response.text() });
   } catch (error) {
-    console.error("AI Error:", error.message);
-    res.status(500).json({ error: error.message });
+    console.error("DEBUG AI ERROR:", error);
+    res.status(500).json({
+      error: "AI Service Failed",
+      details: error.message,
+    });
   }
 });
-  app.listen(PORT, () => {
-    console.log(`Server is running at http://localhost:${PORT}`);
-  });
-
+app.listen(PORT, () => {
+  console.log(`Server is running at http://localhost:${PORT}`);
+});
