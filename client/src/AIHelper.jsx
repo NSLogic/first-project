@@ -1,23 +1,28 @@
 import React, { useState } from "react";
 
-const AIHelper = () => {
+const AIHelper = ({ recipes }) => {
+  const menuContext = recipes
+    .map((r) => `${r.title} (Price: ₹${r.price})`)
+    .join(", ");
   const [userInput, setUserInput] = useState("");
   const [suggestion, setSuggestion] = useState("");
   const [loading, setLoading] = useState(false);
 
   const getAIAdvice = async () => {
     if (!userInput.trim()) return;
-
     setLoading(true);
     setSuggestion("");
-
+    const menuList = recipes.map((r) => `${r.title} (₹${r.price})`).join(", ");
     try {
       const res = await fetch(
         "https://tastytreats.onrender.com/api/ai/recommend",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ prompt: userInput }),
+          
+          body: JSON.stringify({ prompt: userInput,
+          menuContext: menuList,
+           }),
         },
       );
 
