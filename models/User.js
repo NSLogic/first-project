@@ -16,6 +16,7 @@ const userSchema = new mongoose.Schema({
     required: true,
   },
   bookmarks: [{ type: mongoose.Schema.Types.ObjectId, ref: "Recipe" }],
+  isPremium: { type: Boolean, default: false }
 });
 
 module.exports = mongoose.model("User", userSchema);

@@ -19,9 +19,47 @@ function App() {
     category: "South Indian",
   });
   const [editingId, setEditingId] = useState(null);
-  const [cart, setCart] = useState([]); 
-  const [searchTerm, setSearchTerm] = useState(""); 
+  const [cart, setCart] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
   const [showCart, setShowCart] = useState(false);
+  const loadRazorpayScript = () => {
+    return new Promise((resolve) => {
+      const script = document.createElement("script");
+      script.src = "https://checkout.razorpay.com/v1/checkout.js";
+      script.onload = () => resolve(true);
+      script.onerror = () => resolve(false);
+      document.body.appendChild(script);
+    });
+  };
+
+  const handlePayment = async () => {
+    const isLoaded = await loadRazorpayScript();
+    if (!isLoaded) return alert("Failed to load Razorpay.");
+
+    const response = await fetch("http://localhost:3000/api/create-order", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ amount: calculateTotal() }),
+    });
+    const order = await response.json();
+
+    const options = {
+      key: "YOUR_RAZORPAY_KEY_ID", // Replace with your actual Test Key ID
+      amount: order.amount,
+      currency: "INR",
+      name: "TastyTreats",
+      description: "Order Payment",
+      order_id: order.id,
+      handler: async (response) => {
+        alert("Payment Successful! Order ID: " + response.razorpay_payment_id);
+        setCart([]); // Clear cart after payment
+        setShowCart(false);
+      },
+      theme: { color: "#6200ea" },
+    };
+    const razor = new window.Razorpay(options);
+    razor.open();
+  };
   const toggleTheme = () => {
     const newTheme = theme === "light" ? "dark" : "light";
     setTheme(newTheme);
@@ -65,9 +103,9 @@ function App() {
   };
 
   const deleteRecipe = (id) => {
-    fetch(`https://tastytreats.onrender.com/api/recipes/${id}`, { method: "DELETE" }).then(
-      () => setRecipes(recipes.filter((recipe) => recipe._id !== id)),
-    );
+    fetch(`https://tastytreats.onrender.com/api/recipes/${id}`, {
+      method: "DELETE",
+    }).then(() => setRecipes(recipes.filter((recipe) => recipe._id !== id)));
   };
   const startEdit = (recipe) => {
     setEditingId(recipe._id);
@@ -116,16 +154,19 @@ function App() {
   };
   const toggleBookmark = async (recipeId) => {
     const userId = localStorage.getItem("userId");
-    console.log("Attempting to bookmark with:", { userId, recipeId }); 
+    console.log("Attempting to bookmark with:", { userId, recipeId });
 
     try {
-      const response = await fetch("https://tastytreats.onrender.com/api/bookmark", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ userId, recipeId }),
-      });
+      const response = await fetch(
+        "https://tastytreats.onrender.com/api/bookmark",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ userId, recipeId }),
+        },
+      );
 
-      console.log("Response Status:", response.status); 
+      console.log("Response Status:", response.status);
       const data = await response.json();
       console.log("Actual Server Data:", data);
 
@@ -221,9 +262,9 @@ function App() {
               <p>
                 <strong>Total: ₹{calculateTotal()}</strong>
               </p>
-              <button onClick={() => alert("Proceeding to payment...")}>
-                Proceed to Pay
-              </button>
+             <button onClick={handlePayment} style={{ background: "#6200ea", color: "white", padding: "10px", width: "100%", border: "none", cursor: "pointer" }}>
+  Pay Now (₹{calculateTotal()})
+</button>
               <button onClick={() => setShowCart(false)}>Close</button>
             </div>
           )}

@@ -8,6 +8,11 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const User = require("../models/User");
 const Recipe = require("../models/Recipe");
+const Razorpay = require("razorpay");
+const razorpay = new Razorpay({
+key_id: process.env.RAZORPAY_KEY_ID,
+key_secret: process.env.RAZORPAY_KEY_SECRET,
+});
 const app = express();
 const PORT = 3000;
 app.use(cors({
@@ -133,6 +138,20 @@ app.post("/api/login", async (req, res) => {
     res.json({ token, username: user.username, userId: user._id });
   } catch (error) {
     res.status(500).json({ message: "Server error" });
+  }
+});
+app.post("/api/create-order", async (req, res) => {
+  const { amount } = req.body; 
+  try {
+    const options = {
+      amount: Math.round(amount * 100), // 
+      currency: "INR",
+      receipt: "order_rcptid_" + Date.now(),
+    };
+    const order = await razorpay.orders.create(options);
+    res.json(order);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
   }
 });
   app.listen(PORT, () => {
