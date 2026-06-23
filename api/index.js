@@ -164,10 +164,16 @@ app.post("/api/ai/recommend", async (req, res) => {
       throw new Error("GEMINI_API_KEY is missing");
     }
     const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
-    const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
+    const model = genAI.getGenerativeModel({
+      model: "gemini-2.5-flash",
+      systemInstruction:
+        "You are the TastyTreats AI Chef. Your ONLY purpose is to provide cooking advice, recipe suggestions, or receive feedback about the TastyTreats website. If the user asks about anything else, politely refuse and redirect them back to cooking or website topics.",
+    });
+
     const result = await model.generateContent(
       prompt || "Give me a cooking tip.",
     );
+
     res.json({ response: result.response.text() });
   } catch (error) {
     console.error("AI Error:", error.message);
