@@ -158,24 +158,20 @@ app.post("/api/create-order", async (req, res) => {
   }
 });
 app.post("/api/ai/recommend", async (req, res) => {
-  const { prompt } = req.body;
   try {
+    const { prompt } = req.body;
     if (!process.env.GEMINI_API_KEY) {
-      throw new Error("GEMINI_API_KEY is not defined in environment");
+      throw new Error("GEMINI_API_KEY is missing");
     }
     const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
-    const model = genAI.getGenerativeModel({
-      model: "gemini-1.5-flash-latest",
-    });
-
+    const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
     const result = await model.generateContent(
       prompt || "Give me a cooking tip.",
     );
-    const response = await result.response;
-    res.json({ response: response.text() });
+    res.json({ response: result.response.text() });
   } catch (error) {
-    console.error("AI Route Error:", error);
-    res.status(500).json({ error: error.message });
+    console.error("AI Error:", error.message);
+    res.status(500).json({ error: "AI Engine Error", details: error.message });
   }
 });
 app.listen(PORT, () => {
