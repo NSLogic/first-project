@@ -159,7 +159,7 @@ app.post("/api/ai/recommend", async (req, res) => {
   const { prompt } = req.body;
   try {
     const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
-    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" }); 
+ const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash-001" });
     const result = await model.generateContent(prompt || "Give me a cooking tip.");
     res.json({ response: result.response.text() });
   } catch (error) {
