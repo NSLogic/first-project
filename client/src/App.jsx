@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Register from "./Register";
 import Login from "./Login";
+import AIHelper from "./AIHelper";
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem("token"));
   const [recipes, setRecipes] = useState([]);
@@ -285,6 +286,7 @@ function App() {
 
           <main className="menu-content">
             <h1>TastyTreats</h1>
+            {isAdmin && <AIHelper />}
             {isAdmin && (
               <form onSubmit={handleSaveRecipe} className="recipe-form">
                 <h3>{editingId ? "Edit Recipe" : "Add New Recipe"}</h3>
