@@ -180,6 +180,9 @@ function App() {
       console.error("Fetch failed:", err);
     }
   };
+  const getItemCount = (id) => {
+    return cart.filter((item) => item._id === id).length;
+  };
 const calculateTotal = () => {
   const total = cart.reduce((acc, item) => {
     const price = parseFloat(item.price);
