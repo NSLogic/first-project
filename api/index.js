@@ -14,7 +14,6 @@ key_id: process.env.RAZORPAY_KEY_ID,
 key_secret: process.env.RAZORPAY_KEY_SECRET,
 });
 const { GoogleGenerativeAI } = require("@google/generative-ai");
-const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 const app = express();
 const PORT = 3000;
 app.use(cors({
@@ -159,12 +158,13 @@ app.post("/api/create-order", async (req, res) => {
 app.post("/api/ai/recommend", async (req, res) => {
   const { prompt } = req.body;
   try {
-    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
-    const result = await model.generateContent(prompt);
+    const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
+    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" }); 
+    const result = await model.generateContent(prompt || "Give me a cooking tip.");
     res.json({ response: result.response.text() });
   } catch (error) {
-    console.error("AI Error:", error);
-    res.status(500).json({ error: "AI service failed" });
+    console.error("AI Error:", error.message);
+    res.status(500).json({ error: error.message });
   }
 });
   app.listen(PORT, () => {

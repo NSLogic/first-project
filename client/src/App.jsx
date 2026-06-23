@@ -180,12 +180,13 @@ function App() {
       console.error("Fetch failed:", err);
     }
   };
-  const calculateTotal = () => {
-    return cart.reduce((total, item) => total + parseFloat(item.price || 0), 0);
-  };
-  const getItemCount = (id) => {
-    return cart.filter((item) => item._id === id).length;
-  };
+const calculateTotal = () => {
+  const total = cart.reduce((acc, item) => {
+    const price = parseFloat(item.price);
+    return acc + (isNaN(price) ? 0 : price);
+  }, 0);
+  return total.toFixed(2);
+};
   return (
     <div className={isLoggedIn ? "app-layout" : "login-page"}>
       {!isLoggedIn ? (
